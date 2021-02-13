@@ -577,7 +577,10 @@ class Vulture(ast.NodeVisitor):
                 first_arg = node.args.args[0].arg
             except AttributeError:
                 # Python 2.7
-                first_arg = node.args.args[0].id
+                try:
+                    first_arg = node.args.args[0].id
+                except AttributeError:  # first-arg is a tuple
+                    pass
 
         if "@property" in decorator_names:
             typ = "property"
